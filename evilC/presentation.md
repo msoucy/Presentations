@@ -30,6 +30,7 @@ String Concatenation
 
 Two string literals, placed "next to" each other, will be treated as one:
 
+    !cpp
     printf("abc" "def"); // == printf("abcdef")
 
 This is useful for long strings (such as insanely complex printf formatting strings) that you can extend onto more than one line
@@ -39,6 +40,7 @@ Octal
 =====
 There is a HUGE difference between the following:
 
+    !cpp
     int x = 10; // decimal 10
     int y = 010; // decimal 8
     int z = 0x10; // decimal 16
@@ -96,7 +98,7 @@ Now try sticking them in, say, an if statement:
 
     !cpp
     int x=0;
-    if(cin>>x,x*=2,x&lt;8) { /*do stuff*/}
+    if(cin>>x,x*=2,x<8) { /*do stuff*/}
 
 ---
 # Commenting out/testing values
@@ -166,40 +168,37 @@ In order to support those poor programmers who don't have access to such exotic 
     <tr>
         <td>Trigraph</td>
         <td>Equivalent</td>
+        <td />
+        <td>Trigraph</td>
+        <td>Equivalent</td>
     </tr>
     <tr>
         <td>??=</td>
         <td>#</td>
-    </tr>
-    <tr>
+        <td />
         <td>??/</td>
         <td>\</td>
-    </tr>
-    <tr>
+        <td />
         <td>??'</td>
         <td>^</td>
     </tr>
     <tr>
         <td>??(</td>
         <td>[</td>
-    </tr>
-    <tr>
+        <td />
         <td>??)</td>
         <td>]</td>
-    </tr>
-    <tr>
+        <td />
         <td>??!</td>
         <td>|</td>
     </tr>
     <tr>
         <td>??&gt;</td>
         <td>{</td>
-    </tr>
-    <tr>
+        <td />
         <td>??&lt;</td>
         <td>}</td>
-    </tr>
-    <tr>
+		<td />
         <td>??-</td>
         <td>~</td>
     </tr>
@@ -271,7 +270,7 @@ What we've covered so far
 The ternary operator
 ====================
 
-The ternary operator, of the format (x?y:z), appears at first glance to be equivalent to the following:
+The ternary operator, using the format (x?y:z), is used similarly to the following:
 
     !cpp
     if(x) {y} else {z}
@@ -292,13 +291,33 @@ Or, if you want to get REALLY crazy:
     ((x<y)?x:y) = -((x>y)?x:y);
 
 ---
-X-macros
-========
-When you #include things, the preprocessor literally copy-pastes things into the source file in its place.
+Abusing destructors
+===================
+Destructors are called when a class (or struct) leaves scope.
 
-X-macros take advantage of this for some fun tricks.
+This includes when the program is cleaning up after itself when it's exiting main.
 
-These aren't "evil", so much as confusing to someone who is unfamiliar with the preprocessor
+	!cpp
+	#include <iostream>
+	using namespace std;
+	
+	struct ProgramWrapper {
+		~ProgramWrapper() {
+			cin.sync();cin.ignore();
+		}
+	} wrapper;
+	
+	int main() {
+		return 0;
+	}
+---
+Include tricks
+==============
+The preprocessor uses a textual replace for #include, replacing the #include with the (preprocessed) body of the file.
+
+You can take advantage of this for some fun tricks.
+
+Someone unfamiliar with the preprocessor may be confused by this
 
 What does this example expand to?
 
@@ -313,8 +332,8 @@ colors.def
     X(blue)
 
 ---
-X-macros (cont.)
-================
+Include tricks (cont.)
+======================
 main.cpp
 --------
 
@@ -340,9 +359,10 @@ main.cpp
     }
 
 ---
-X-macros (cont.)
-================
-
+Include tricks (cont.)
+======================
+The end result:
+---------------
     !cpp
     #include <stdio.h>
 
@@ -385,13 +405,13 @@ The syntax is rather ugly though...
     typedef int(*FunctionPointer)(int); // Create a type FunctionPointer
     // This type points to a function taking an int and returning an int
     int main() {
-	    FunctionPointer todo[3] = {f,g,h}; // Array of functions pointers
+	    FunctionPointer todo[3] = {f,g,h}; // Array of function pointers
 	    int x=10;
-	    for(unsigned i=0;i<3;i++) {
+	    for(unsigned i=0;i < 3;i++) {
 		    x = todo[i](x);
 	    }
         // Result should be 19
-	    printf("Result:\\t%d\\n",x);
+	    printf("Result>\t%d\n",x);
 	    return 0;
     }
 
@@ -525,6 +545,63 @@ This trick was used with a for loop for this lovely, famous bit of code:
     }
 
 What does this code do?
+
+---
+#C++ Evil
+---
+Templates
+=========
+
+Templates are often regarded to be immensely evil due to their "interesting" syntax.
+
+
+	!cpp
+	#include <cstdio>
+	#include <vector>
+	using std::vector;
+
+	template<int N> class Foo {
+		int x:N; // Generate a compiler error if N==0
+	};
+	template<typename T> class Bar {};
+
+	template<int N> struct Bin() {
+		Bin(){
+			Bin<T>>1> B; printf("%d",T%2);
+		}
+	};
+	struct Bin<O>{}; // Base case
+
+	int main() {
+		vector<vector<int> > x; // There has to be a space between the > >
+		Foo<(2>1)> y; // Booleans "graduate" to integers, so this is legal
+		//Foo<(1>2)> q; // Creates a zero-width bitfield, so illegal
+		Bar<int> z; // Legal, "typename" matches "int"
+		Bin<42>();
+		return 0;
+	}
+---
+C++0x Lambdas
+=====
+
+The latest revision of the C++ standard, C++11, added support for lambda functions.
+
+These are awesome and make some of the standard library's functions actually usable.
+
+However they can VERY easily be used for evil:
+
+	!cpp
+	#include <cstdio>
+
+	int main() {
+		// Harmless example
+		printf("%d\n",[]{return 2+2;}());
+		[](){}(); // Does absolutely nothing but scare future readers
+		// And you can capture them with function pointers!
+		int(*f)(int) = [](int x) {return x+2;};
+		printf("%d\n",f(5));
+		return 0;
+	}
 
 ---
 return 0;
