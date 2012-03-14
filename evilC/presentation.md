@@ -275,7 +275,16 @@ The ternary operator, using the format (x?y:z), is used similarly to the followi
     !cpp
     if(x) {y} else {z}
 
-However, it's actually much more diabolical:
+Here's a simple example:
+    !cpp
+    #include <cstdio>
+
+	int main() {
+		int x = (1>2)?printf("Fail"):printf("Expected");
+		printf("\n%d\n",x);
+	}
+
+However, it actually much more diabolical uses:
 
     !cpp
     int x,y,z;
