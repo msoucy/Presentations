@@ -56,7 +56,7 @@ Can be used as any pointer type, and point to any data type
 In order to use it as anything other than just a pointer, it must be cast
 
     !cpp
-    #include <cstdio>
+    #include <stdio.h>
     void printPtr(void* p) {
         *(char*)p += 1;
         printf("%p",p); // Pointer printf
@@ -71,8 +71,16 @@ In order to use it as anything other than just a pointer, it must be cast
 sizeof
 ======
 Most people have heard of the sizeof command, however, they are unaware that sizeof doesn't actually evaluate its contents.
+
 The entire thing is performed at compile time, but not executed - it returns the size of the result of the expression, and compiles that in.
+
 The original code doesn't actually make it to the executable.
+
+	!cpp
+	// Notice the lack of a body there
+	template <typename T, int N> char ( &Array( T(&)[N] ) )[N];
+	int x[5];
+	printf("Length of an array: %d\n",sizeof(Array(x)));
 
 ---
 The comma operator
@@ -254,7 +262,7 @@ What we've covered so far
 =========================
 
     !cpp
-    ??=include <cstdio>
+    ??=include <stdio.h>
     int main() <%
         // Syntax highlighting doesn't like any of this
         printf("Hello, world!\n");
@@ -277,7 +285,7 @@ The ternary operator, using the format (x?y:z), is used similarly to the followi
 
 Here's a simple example:
     !cpp
-    #include <cstdio>
+    #include <stdio.h>
 
 	int main() {
 		int x = (1>2)?printf("Fail"):printf("Expected");
@@ -399,7 +407,7 @@ Since you can create a pointer to a variable, it makes sense that you can create
 The syntax is rather ugly though...
 
     !cpp
-    #include <cstdio>
+    #include <stdio.h>
 
     int f(int x) {
 	    return x+1;
@@ -531,6 +539,42 @@ We're able to combine switch and if in some convoluted ways:
 	}
 
 ---
+Switch Statements (cont.)
+=========================
+
+This trick can be extended to work with if(){}else{}:
+
+	!cpp
+    switch(mode) {
+	case PARSE_MODE_COMMAND:
+	    // We have a null command!
+	    fprintf(stderr, "Illegal null command\n");
+	    return NULL;
+	    break;  
+	case PARSE_MODE_PIPE:
+	case PARSE_MODE_ARGUMENT:
+	    if(allowLT) {
+	        // Set the mode
+	        mode = PARSE_MODE_INREDIR;
+	        allowLT = false;
+	    } else {
+	default:
+	        // It's a illegal redirect
+	        if(currentArg + 1 < argCount) {
+	            fprintf(stderr, "%s: Illegal input redirect\n",
+	                argList[currentArg + 1]);
+	        } else {
+	            fprintf(stderr, "Illegal input redirect\n");
+	        }      
+	        return NULL;
+	    }      
+	    break;  
+	}
+
+.notes: Credit to Ben Russel (benrr101) for this snippet
+
+
+---
 Duff's Device
 =============
 
@@ -565,7 +609,7 @@ Templates are often regarded to be immensely evil due to their "interesting" syn
 
 
 	!cpp
-	#include <cstdio>
+	#include <stdio.h>
 	#include <vector>
 	using std::vector;
 
@@ -600,7 +644,7 @@ These are awesome and make some of the standard library's functions actually usa
 However they can VERY easily be used for evil:
 
 	!cpp
-	#include <cstdio>
+	#include <stdio.h>
 
 	int main() {
 		// Harmless example
