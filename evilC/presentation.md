@@ -172,45 +172,11 @@ Trigraphs
 =========
 In order to support those poor programmers who don't have access to such exotic keys as {}, C/C++ support the following:
 
-<h3><table>
-    <tr>
-        <td>Trigraph</td>
-        <td>Equivalent</td>
-        <td />
-        <td>Trigraph</td>
-        <td>Equivalent</td>
-    </tr>
-    <tr>
-        <td>??=</td>
-        <td>#</td>
-        <td />
-        <td>??/</td>
-        <td>\</td>
-        <td />
-        <td>??'</td>
-        <td>^</td>
-    </tr>
-    <tr>
-        <td>??(</td>
-        <td>[</td>
-        <td />
-        <td>??)</td>
-        <td>]</td>
-        <td />
-        <td>??!</td>
-        <td>|</td>
-    </tr>
-    <tr>
-        <td>??&gt;</td>
-        <td>{</td>
-        <td />
-        <td>??&lt;</td>
-        <td>}</td>
-		<td />
-        <td>??-</td>
-        <td>~</td>
-    </tr>
-</table></h3>
+| Trigraph | Equivalent | Trigraph | Equivalent | Trigraph | Equivalent |
+|:--------:|:----------:|:--------:|:----------:|:--------:|:----------:|
+| ??= | # | ??/ | \ | ??' | ^ |
+| ??( | [ | ??) | ] | ??! | &#124; |
+| ??< | { | ??> | } | ??- | ~ |
 
 Important:
 
@@ -224,32 +190,13 @@ Digraphs
 ========
 There are also digraphs, meant to be more readable:
 
-<h3><table>
-    <tr>
-        <td>Digraph</td>
-        <td>Equivalent</td>
-    </tr>
-    <tr>
-        <td>&gt;:</td>
-        <td>[</td>
-    </tr>
-    <tr>
-        <td>:&lt;</td>
-        <td>]</td>
-    </tr>
-    <tr>
-        <td>&gt;%</td>
-        <td>{</td>
-    </tr>
-    <tr>
-        <td>%&lt;</td>
-        <td>}</td>
-    </tr>
-    <tr>
-        <td>%:</td>
-        <td>#</td>
-    </tr>
-</table></h3>
+ Digraph | Equivalent
+---------|-----------
+ <: | [
+ >: | ]
+ <% | {
+ %> | }
+ %: | #
 
 Differences:
 
@@ -338,8 +285,6 @@ Someone unfamiliar with the preprocessor may be confused by this
 
 What does this example expand to?
 
-####(Example courtesy of Dr. Dobbs)
-
 colors.def
 ---------
 
@@ -353,7 +298,6 @@ Include tricks (cont.)
 ======================
 main.cpp
 --------
-
     !cpp
     #include <stdio.h>
 
@@ -400,6 +344,9 @@ The end result:
       printf("c=%s\n", color_name[c]);
       return 0;
     }
+
+.notes: Example blatantly stolen from [Randy Meyers](http://www.drdobbs.com/the-new-c-x-macros/184401387)
+
 ---
 Function Pointers
 =================
@@ -475,7 +422,7 @@ However, if you want to pass through to the next case, this poses problems and w
         char y = 'A'; // Error: y is already an int
         printf("char: %c\n",y);
     case 2:
-        float y = 'A';
+        float y = 1.66;
         printf("float: %f\n",y);
     default:
         // do nothing
@@ -499,7 +446,7 @@ This can be used to properly handle scope for each case, as well as group statem
 		printf("char: %c\n",y);
 	}
 	case 2: {
-		float y = 'A';
+		float y = 1.66;
 		printf("float: %f\n",y);
 	}
 	default: {
@@ -571,7 +518,7 @@ This trick can be extended to work with if(){}else{}:
 	    break;  
 	}
 
-.notes: Credit to Ben Russel (benrr101) for this snippet
+.notes: Credit to Ben Russel <benrr101> for this snippet
 
 
 ---
@@ -626,11 +573,11 @@ Templates are often regarded to be immensely evil due to their "interesting" syn
 	struct Bin<O>{}; // Base case
 
 	int main() {
-		vector<vector<int> > x; // There has to be a space between the > >
+		vector<vector<int> > x; // There has to be a space between the > > in C++98
 		Foo<(2>1)> y; // Booleans "graduate" to integers, so this is legal
 		//Foo<(1>2)> q; // Creates a zero-width bitfield, so illegal
 		Bar<int> z; // Legal, "typename" matches "int"
-		Bin<42>();
+		Bin<42>(); // Print the binary representation of 42
 		return 0;
 	}
 ---
