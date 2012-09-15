@@ -1,5 +1,7 @@
-# Evil
+#Evil
+
 ---
+
 #Trigraphs
 In order to support those poor programmers who don't have access to such exotic keys as {}, C/C++ support the following:
 
@@ -18,6 +20,7 @@ Important:
  * With the advent of raw strings (C++11), in order to safely remove all trigraphs you essentially need to write a complete C++ parser.
 
 ---
+
 #Digraphs
 There are also digraphs, meant to be more readable:
 
@@ -37,28 +40,28 @@ Differences between trigraphs and digraphs:
  * A digraph must represent a full token by itself, except for %:%:, which replaces the preprocessor ##
 
 ---
-#Include tricks
+
+#X-Macros
 
 The preprocessor uses a textual replace for #include, replacing the #include with the (preprocessed) body of the file.
 
-You can take advantage of this for some fun tricks.
+Someone unfamiliar with the preprocessor may be confused by this,
+because it's common for beginners to assume that the preprocessor must produce complete tokens.
+However, 
 
-Someone unfamiliar with the preprocessor may be confused by this
-
-What does this example expand to?
-
-###colors.def
-
-    !cpp
-    X(red),
-    X(green),
-    X(blue)
+This means that the preprocesser can be used to generate some types of code.
 
 ---
-#Include tricks (cont.)
+
+#X-macros Example
+
+###colors.def
+    !cpp
+    X(red)
+    X(green)
+    X(blue)
 
 ###main.cpp
-
     !cpp
     #include <stdio.h>
 
@@ -69,7 +72,7 @@ What does this example expand to?
     #undef X
 
     #define X(a) #a,
-    char *color_name[] = {
+    const char *color_name[] = {
       #include "colors.def"
     };
     #undef X
@@ -81,7 +84,8 @@ What does this example expand to?
     }
 
 ---
-#Include tricks (cont.)
+
+#X-Macros final result
 
 ###The end result:
 
@@ -109,6 +113,94 @@ What does this example expand to?
 .notes: Example blatantly stolen from [Randy Meyers](http://www.drdobbs.com/the-new-c-x-macros/184401387)
 
 ---
+
+#Supermacros
+
+By using `#undef` within the X-macro file, any code that uses it won't have to clean up after itself.
+
+You can use #define and X-macros together to simulate passing a parameter to the included header file.
+
+---
+
+#Unary + operator
+
+Everyone knows that the + operator is used to sum two values.
+However, it can also be used as a unary operator.
+
+	!cpp
+	int x = +1234;
+	printf("%d",+x);
+
+Alone, it's somewhat useless, but it has some interesting side effects.
+
+---
+
+#Unary + on enums
+
+When used on an enum, unary + is the same as a cast to int.
+
+	!cpp
+	enum X {
+		a,b,c
+	};
+	
+	X val = a;
+	printf("%d",+val); // +val is an int
+
+---
+
+#Unary + to create const ref
+
+Sometimes, a function requires a const reference, but you want to pass it something else.
+When this happens, you can use + to create a "temporary reference" to a value.
+
+	!cpp
+	struct Foo {
+	  static int const value = 42;
+	};
+
+	// This does something interesting...
+	template<typename T>
+	void f(T const&);
+
+	int main() {
+	  // fails to link - tries to get the address of "Foo::value"!
+	  f(Foo::value);
+
+	  // works - pass a temporary value
+	  f(+Foo::value);
+	}
+
+.notes: Taken from [Johannes Schaub](http://stackoverflow.com/questions/75538/hidden-features-of-c)
+
+---
+
+#Unary + to convert arrays to pointers
+
+On occasion, you'll need to send a pointer to a function. Typically, your options are:
+
+	!cpp
+	&arr[0];
+	(int*)arr[0];
+
+However, using unary + you can convert any array into a pointer while remaining easy-to-read.
+
+	!cpp
+	// This does something interesting...
+	template<typename T>
+	void f(T const& a, T const& b);
+
+	int main() {
+	  int a[2];
+	  int b[3];
+	  f(a, b); // won't work! different values for "T"!
+	  f(+a, +b); // works! T is "int*" both times
+	}
+
+.notes: Taken from [Johannes Schaub](http://stackoverflow.com/questions/75538/hidden-features-of-c)
+
+---
+
 #Switch Statements
 
 How do switch statements work?
@@ -132,7 +224,8 @@ An ordinary switch statement might look something like this:
     }
 
 ---
-#Switch Statements (cont.)
+
+#Switch Statements (Fallthrough)
 
 Regular switch statements, by default, have a unique scope for the whole switch (as shown by the {}).
 
@@ -155,7 +248,8 @@ However, if you want to pass through to the next case, this poses problems and w
     }
 
 ---
-#Switch Statements (cont.)
+
+#Switch Statements (Blocks)
 
 This can be used to properly handle scope for each case, as well as group statements together logically:
 
@@ -180,7 +274,8 @@ This can be used to properly handle scope for each case, as well as group statem
 	}
 
 ---
-#Switch Statements (cont.)
+
+#Switch Interlacing
 
 We're able to combine switch and if in some convoluted ways:
 
@@ -209,7 +304,8 @@ We're able to combine switch and if in some convoluted ways:
 	}
 
 ---
-#Switch Statements (cont.)
+
+#Switch Interlacing Example
 
 This trick can be extended to work with if(){}else{}:
 
@@ -243,9 +339,10 @@ This trick can be extended to work with if(){}else{}:
 .notes: Credit to Ben Russel <benrr101> for this snippet
 
 ---
+
 #Duff's Device
 
-This trick was used with a for loop for this lovely, famous bit of code:
+This trick was used with a for loop for this lovely, famous (but slightly modified) bit of code:
 
     !cpp
     void duff(char* to, char* from, short count)
@@ -265,5 +362,25 @@ This trick was used with a for loop for this lovely, famous bit of code:
     }
 
 What does this code do?
+
+---
+
+#Loop classes
+
+Everyone knows how to create a variable inside of a for loop:
+
+    !cpp
+    for(int i=0;...;...) {
+        ...
+    }
+
+Because of how structures are declared, it's also possible to create one in the same place.  
+This can be used to create several variables with different types,
+which is otherwise impossible while keeping their scope limited to the for loop.
+
+    !cpp
+    for(struct { int a; float b; } loop = { 1, 2.0 }; ...; ...) {
+        ...
+    }
 
 
