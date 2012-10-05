@@ -152,27 +152,27 @@ This can be exploited to use foreach over things that aren't "real" collections.
 
     !cpp
     class Count {
-	    int val, step;
+        int val, step;
     public:
-	    class iterator {
-		    int val, step;
-	    public:
-		    iterator(int val, int step) : val(val), step(step) {}
-		    iterator operator++() {
-			    val+=step;
-			    return *this;
-		    }
-		    bool operator!=(const iterator& other) const {
-			    return (val+step > other.val);
-		    }
-		    int operator*() const { return val; }
-	    };
-	    Count(int v, int step=1) : val(v), step(step) {}
-	    iterator begin() { return iterator(val, step); }
-	    iterator end() { return iterator(val-1, step); }
+        class iterator {
+            int val, step;
+        public:
+            iterator(int val, int step) : val(val), step(step) {}
+            iterator operator++() {
+                val+=step;
+                return *this;
+            }
+            bool operator!=(const iterator& other) const {
+                return (val+step > other.val);
+            }
+            int operator*() const { return val; }
+        };
+        Count(int v, int step=1) : val(v), step(step) {}
+        iterator begin() { return iterator(val, step); }
+        iterator end() { return iterator(val-1, step); }
     };
     
     for(int i : Count(5,3)) {
-		cout << i << endl;
-	}
+        cout << i << endl;
+    }
 
