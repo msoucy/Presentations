@@ -127,7 +127,7 @@ However they can VERY easily confuse anyone who is unaware:
 
 #Range-based For Loops (C++11)
 
-C++11 allows the use of foreach loops using a familiary syntax:
+C++11 allows the use of foreach loops using a somewhat familiar syntax:
 
     !cpp
     vector<int> vec = ...; // Some values or whatever
@@ -140,7 +140,8 @@ The trick is that this can operate on C-style arrays, initializer lists, and typ
 It's identical to writing:
 
     !cpp
-    for(auto i=vec.begin();i!=vec.end();i++) {
+    for(auto _iter = vec.begin(); _iter != vec.end(); _iter++) {
+    	auto i = *_iter;
         cout << i << endl;
     }
 
