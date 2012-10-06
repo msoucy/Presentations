@@ -40,7 +40,6 @@ C is infamous for having an unintuitive syntax for complex function declaration.
 		// * is required for both
 	int* x, y;
 		// x is an int*, y is an int
-	// Examples from K&R Sec 5.12
 	int *p;
 		// p is a pointer to an int
 	int *p[13];
@@ -62,6 +61,8 @@ C is infamous for having an unintuitive syntax for complex function declaration.
 		// x is an array[3] of pointers to functions
 		// returning pointers to array[5] to int
 
+.notes: Examples from K&R Sec 5.12
+
 ---
 
 # Variable declaration syntax (D style)
@@ -75,7 +76,6 @@ Isn't it nicer to just do it the D way?
 	int *x;
 	int y;
 		// x is an int*, y is an int
-	// Examples from K&R Sec 5.12
 	int* p;
 		// p is a pointer to an int
 	int*[13] p;
@@ -94,6 +94,8 @@ Isn't it nicer to just do it the D way?
 	int[5]* function()[3] x;
 		// x is an array[3] of pointers to functions
 		// returning pointers to array[5] to int
+
+.notes: Examples from K&R Sec 5.12
 
 ---
 
@@ -177,25 +179,24 @@ Example script:
 	#!/usr/bin/dmd -run
 	// If you have multiple files, you can use /usr/bin/rdmd
 	import std.stdio;
+	import std.string;
 	import std.random;
-	import std.algorithm;
 
 	void main(){
 		// Simple raffle name reorderer
-		writef("Enter names:\n==> ");
 		char[] data;
-		stdin.readln(data);
+		writeln("Enter names:");
 		string[] names;
-		while(data != "") {
-			names ~= cast(string)data;
+		do {
 			write("==> ");
 			stdin.readln(data);
-		}
+			data = data.strip();
+			if(data != "") names ~= data.idup;
+		} while(data != "");
 		writeln("--- OUTPUT ---");
-		auto rnd = Random(unpredictableSeed);
 		uint i=0;
-		foreach(name;randomCover(names,rnd)) {
-			writef("%s: %s\n", i, name);
+		foreach(name;randomCover(names,Random(unpredictableSeed))) {
+			writef("%s: `%s`\n", i, name);
 			i++;
 		}
 	}
@@ -220,34 +221,130 @@ D continues C's style of a switch statement, but with a few tricks:
 	default:
 		// Same old, same old
 	}
-
----
-
-# Unicode-ready
-
-D source text can be in one of the following formats:
-
- *  ASCII
- *  UTF-8
- *  UTF-16BE
- *  UTF-16LE
- *  UTF-32BE
- *  UTF-32LE
-
-Copied verbatim from the D newsgroups:
-
-	!d
-	int main()
-	{
-		int العربية = 42; // <- I really love this mind-fuck !!!
-		return العربية;
+	switch(s[0]) {
+	case 'a' : .. case 'z': // Matches anything between a-z
 	}
-	
-(In case you're wondering, "العربية" means "Arabic")
+
 
 ---
 
 # Templates
+
+Templates, combined with compile-time duck typing, allow for some powerful and simple type manipulation.
+
+Their syntax is significantly cleaner than in C++,
+due to using a single binary operator ! instead of overloading <>:
+
+	!d
+	template Foo(T, U) {
+		class Bar { ... }
+		T foo(T t, U u) { ... }
+		T abc;
+		typedef T* Footype; // any declarations can be templated
+	}
+
+	class Baz(T) {
+		T t;
+	}
+
+	Foo!(int,char).Bar b;
+	Foo!(int,char).foo(1,2);
+	Foo!(int,char).abc = 3;
+	Baz!int baz; // If there's only one argument it doesn't need parenthesis
+
+---
+
+# Eponymous Templates
+
+When you make an eponymous template, the template takes the value of a static variable with the same name inside it.
+
+	!d
+	template factorial(int n) {
+		static if (n == 1) const factorial = 1;
+		else const factorial = n * factorial!(n-1);
+	}
+
+---
+
+# CTFE
+
+The factorial example is simple, but in a lot of cases you'd prefer to be able to do a calculation both at compile and run time.
+For this reason, D allows compile-time function execution.
+Any variable what is created with `enum` or `static` is determined at compile-time.
+
+	!d
+	int factorial(int n) {
+		if (n == 1) return 1;
+		else return n * factorial(n - 1);
+	}
+
+	int x = factorial(5); // x is initialized to 120 at runtime
+	static int x = factorial(5); // x is statically initialized to 120
+
+---
+
+# Iterators
+
+D's standard library uses the concept of `Range`s instead of `Iterator`s like C++.
+
+Iterators have some conceptual issues:
+
+- There is no single, simple definition of what an iterator is
+- Tied to pointer syntax
+- Essential primitives:
+    - At the end
+    - Access value
+    - Move (increment)
+- Come in pairs (mostly)
+
+---
+
+# <s>Iterators</s> Ranges
+
+A range is a single interface that allows for an alternative method of iteration.
+
+	!d
+	// Taken verbatim from std.range
+	template isInputRange(R)
+	{
+	    enum bool isInputRange = is(typeof(
+	    (inout int _dummy=0)
+	    {
+	        R r = void;       // can define a range object
+	        if (r.empty) {}   // can test for empty
+	        r.popFront();     // can invoke popFront()
+	        auto h = r.front; // can get the front of the range
+	    }));
+	}
+
+# Presenter Notes
+
+Ranges in their simplest form share some similarities with Java - at least the foreach loop syntax.
+
+---
+
+# Ranges
+
+More importantly, it simplifies iterating over things that may not be a "real" range.
+
+	!d
+	// Reverses iteration over a bidirectional range
+	struct Reversed
+	{
+	    int[] range;
+
+	    this(int[] range) { this.range = range; }
+
+	    @property bool empty() const { return range.empty; }
+
+	    @property int front() const { return range.back; } // ← reverse
+
+	    @property int back() const { return range.front; } // ← reverse
+
+	    void popFront() { range.popBack(); } // ← reverse
+
+	    void popBack() {range.popFront(); } // ← reverse
+	}
 
 ---
 
@@ -259,10 +356,5 @@ Phobos contains many different modules, such as:
 
 - `std.regex` or `std.conv` to handle string processing and conversion
 - `std.csv`, `std.json`, `std.xml`, and `std.zip` to handle many different file formats
-- `std.concurrency` and `std.process`, and `std.socket` for processes and tasks
+- `std.concurrency` and `std.process` for processes and tasks
 - `std.socket` for network sockets
-
----
-
-# Compile Time Function Execution
-

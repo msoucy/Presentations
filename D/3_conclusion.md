@@ -13,4 +13,8 @@
 
 ---
 
+# foreach(question;audience) presenter.answer(question);
+
+---
+
 # return 0;
