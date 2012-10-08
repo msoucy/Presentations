@@ -3,6 +3,7 @@
 	!d
 	import std.stdio;
 	
+	// If main is void, it's the same as if it returns 0
 	void main() {
 		// The developers understand the awesomeness of printf
 		writef("Hello, world!\n");
@@ -99,6 +100,21 @@ Isn't it nicer to just do it the D way?
 
 ---
 
+# Properties
+
+Properties are an extension of accessors, where a "variable" lookup is converted to a function call
+
+	!d
+	@property string twice(string x) {
+		return x~x;
+	}
+
+	void main() {
+		"Hello".twice.writeln();
+	}
+
+---
+
 # Smart arrays
 
 Arrays in D can behave more like C++'s std::vector
@@ -127,11 +143,11 @@ D has a built-in associative array type as part of the syntax:
 	import std.stdio;
 	
 	void main() {
-		string[int] x;
-		x[2] = "World!";
-		x[0] = "Hello";
-		x[1] = ", ";
-		writefln("%s%s%s",x[0],x[1],x[2]);
+		string[string] x;
+		x["what"] = "Hello";
+		x["who"] = "world";
+		x["emotion"] = "!";
+		writefln("%s %s%s",x["what"],x["who"],x["emotion"]);
 	}
 
 ---
@@ -195,7 +211,7 @@ Example script:
 		} while(data != "");
 		writeln("--- OUTPUT ---");
 		uint i=0;
-		foreach(name;randomCover(names,Random(unpredictableSeed))) {
+		foreach(name;names.randomCover(Random(unpredictableSeed))) {
 			writef("%s: `%s`\n", i, name);
 			i++;
 		}
@@ -263,6 +279,8 @@ When you make an eponymous template, the template takes the value of a static va
 		static if (n == 1) const factorial = 1;
 		else const factorial = n * factorial!(n-1);
 	}
+
+	int x = factorial!5; // Same as "int x = 120;"
 
 ---
 

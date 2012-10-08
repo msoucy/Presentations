@@ -23,17 +23,12 @@
 
 ---
 
-# Five instantly-useful features
+# Six instantly-useful features
 
-Built-in associative arrays:
-
-    !d
-    int[string] x;
-
-Garbage collection, unless you want manual memory management, in which case it's fine.
-
-Arrays know their length.
-
-Compile time is insanely short.
-
-Object-oriented, but only when you want it.
+- Garbage collection, unless you want manual memory management, in which case you can use it or turn the GC off.
+- Arrays know their length, and assigning to their length resizes them.
+- Strings are treated as arrays of characters, and have access to all array properties.
+- `const` types are actually const, and you can't circumvent the type system to change this.
+- Compile time is insanely short. (Downside is there's less time for shenanigans)
+- Object-oriented, but only when you want it - doesn't limit you to a specific paradigm.
+    - For example, use a functional style by marking functions as `pure`
