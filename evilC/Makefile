@@ -29,7 +29,7 @@ pdf:
 	$(CATFILES) $(FILES) | \
 	pandoc -t latex | \
 	sed -e "s/\\\\begin{center}\\\\rule{3in}{0.4pt}\\\\end{center}/\\\\newpage/g" | \
-	pandoc --toc -o output/pdf/evilC.pdf
+	pandoc -o output/pdf/evilC.pdf
 
 clean-pdf:
 	rm -rf output/pdf &> /dev/null

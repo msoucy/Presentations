@@ -1,12 +1,3 @@
-# Standard Library Ranges
-
-Much like C++'s STL and iterators, Phobos is designed almost entirely around ranges.
-
-Because of this, any user-made range is instantly supported by the entire standard library,
-including a large number of algorithms for acting on those ranges (`std.algorithm`)
-
----
-
 # Uniform Function Call Syntax
 
 There are often instances when one is using a library that for some reason they cannot alter,
@@ -93,7 +84,7 @@ Deimos is a set of D bindings to various C libraries, such as:
 
 Much like Phobos, Deimos is supported by the open source community, and is constantly updating.
 
-**This means you can link (almost) any C library to D, and it will work fine!**
+**This means you can link (almost) any C library to D, and it will work normally.**
 
 	!d
 	extern(C) int someCrazyCFunction();

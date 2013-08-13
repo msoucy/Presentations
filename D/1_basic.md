@@ -102,7 +102,7 @@ Isn't it nicer to just do it the D way?
 
 # Properties
 
-Properties are an extension of accessors, where a "variable" lookup is converted to a function call
+Properties are an extension of accessors, where a "variable" lookup is converted to a function call.
 
 	!d
 	@property string twice(string x) {
@@ -376,3 +376,8 @@ Phobos contains many different modules, such as:
 - `std.csv`, `std.json`, `std.xml`, and `std.zip` to handle many different file formats
 - `std.concurrency` and `std.process` for processes and tasks
 - `std.socket` for network sockets
+
+Much like C++'s STL and iterators, Phobos is designed almost entirely around ranges.
+
+Because of this, any user-made range is instantly supported by the entire standard library,
+including a large number of algorithms for acting on those ranges (`std.algorithm`)
