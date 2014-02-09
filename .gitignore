@@ -3,3 +3,4 @@ theme/
 *.html
 notes/
 output/
+*.swp
