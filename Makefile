@@ -3,7 +3,7 @@
 PRESENTATIONS=$(wildcard */)
 OUTDIR=output
 
-all: presentations output
+all: clean presentations output
 
 presentations: $(PRESENTATIONS)
 
@@ -17,4 +17,4 @@ output:
 clean:
 	rm -rf $(OUTDIR)
 
-.PHONY: presentations
+.PHONY: presentations $(PRESENTATIONS)
