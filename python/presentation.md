@@ -19,7 +19,6 @@
 - Closures
 - Lambdas
 - Decorators
-- Coroutines
 
 ---
 
