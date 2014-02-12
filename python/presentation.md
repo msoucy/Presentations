@@ -220,7 +220,7 @@ Comprehensions, much like for loops, can be nested, possibly with conditionals:
 	def getLines(allFilenames):
 		data = []
 		for filename in allFilenames:
-			for line in open(filename).readlines():
+			for line in open(filename):
 				if ">>" in line:
 					data.append(line.strip())
 		return data
@@ -228,7 +228,7 @@ Comprehensions, much like for loops, can be nested, possibly with conditionals:
 	def getLines(allFilenames):
 		return [line.strip()
 		        for filename in allFilenames
-	    	    for line in open(filename).readlines()
+		        for line in open(filename)
 				if ">>" in line]
 
 ---
@@ -300,7 +300,7 @@ Lambdas can greatly reduce code required for some operations
 
 ---
 
-# Decorators
+# Closures
 
 You can pass functions into other functions...
 
