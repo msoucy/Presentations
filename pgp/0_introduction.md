@@ -8,7 +8,7 @@
 4096R/B2370F0C 2013-04-20  
 33A9 6558 38DE 94B9 B85B  A0DC 7996 734F B237 0F0C
 
-Slides available at http://skaia.csh.rit.edu/presentations/gpg/
+Slides available at http://msoucy.me/seminars/pgp
 
 ![Creative Commons Share-Alike](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)
 
