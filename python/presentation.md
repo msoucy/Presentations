@@ -295,6 +295,7 @@ There are limitations, the largest being that it only shows the "return value".
 
 Lambdas can greatly reduce code required for some operations
 
+	!python
 	def getAdder(x):
 		return lambda y: x+y
 
