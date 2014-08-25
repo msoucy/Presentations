@@ -10,7 +10,7 @@ presentations: $(PRESENTATIONS)
 $(PRESENTATIONS):
 	$(MAKE) -C $@
 
-output:
+output: clean
 	mkdir -p $(foreach pres,$(PRESENTATIONS),$(OUTDIR)/$(pres))
 	$(foreach pres,$(PRESENTATIONS),cp -r $(pres)/output/html/* $(OUTDIR)/$(pres);)
 
