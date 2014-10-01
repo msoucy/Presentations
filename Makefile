@@ -1,20 +1,25 @@
-#!/usr/bin/make -f
+#!/usr/bin/make
 
-PRESENTATIONS=BarcampD D evilC pgp python style
-OUTDIR=output
+FILES:=${wildcard *.md}
+OUTDIR:=output
 
-all: clean presentations output
+slides: $(FILES:%.md=$(OUTDIR)/%.html)
+pdf:    $(FILES:%.md=$(OUTDIR)/%.pdf)
+latex:  $(FILES:%.md=$(OUTDIR)/%.tex)
 
-presentations: $(PRESENTATIONS)
+all: clean slides pdf latex
 
-$(PRESENTATIONS):
+$(OUTDIR)/%.html: %.md $(OUTDIR)
+	pandoc $< -o $@ -t slidy -s
+
+$(OUTDIR)/%.pdf: %.md $(OUTDIR)
+	pandoc $< -o $@ --toc
+
+$(OUTDIR)/%.tex: %.md $(OUTDIR)
+	pandoc $< -o $@
+
+$(OUTDIR):
 	mkdir -p $(OUTDIR)
-	$(MAKE) -C $@
-
-output: clean
-	$(foreach pres,$(PRESENTATIONS),cp -r $(pres)/output/html $(OUTDIR)/$(pres);)
 
 clean:
-	rm -rf $(OUTDIR)
-
-.PHONY: presentations $(PRESENTATIONS)
+	rm -rf $(OUTDIR) &> /dev/null

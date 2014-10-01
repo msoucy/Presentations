@@ -1,35 +1,31 @@
-# Style Guidelines
-
-## Why legible code can save you hours of time
-
-- Presented by Matt Soucy
-- msoucy@csh.rit.edu
-
----
+% Style Guidelines
+% Matt Soucy (<msoucy@csh.rit.edu>)
+% February 8, 2014
 
 # Illegible code
 
-	!java
-	public class Customer implements VendingMachine {
-	  
-	public int insertMoney(int money) {
-			
-						return money;}
-		public int returnMoney(int money,
-	int price) {
-			int returnMoney = money -
-			price;
-								return returnMoney;
-		}
-		public String purchaseItem
-			(String name, int price){
-			if(money >= price){
-		return name;
-		}
-							else{
-				return "You have insuffeicent funds"; 
-				}
-		}}	
+```java
+public class Customer implements VendingMachine {
+  
+public int insertMoney(int money) {
+		
+					return money;}
+	public int returnMoney(int money,
+int price) {
+		int returnMoney = money -
+		price;
+							return returnMoney;
+	}
+	public String purchaseItem
+		(String name, int price){
+		if(money >= price){
+	return name;
+	}
+						else{
+			return "You have insuffeicent funds"; 
+			}
+	}}	
+```
 
 What's wrong with this code?
 
@@ -59,12 +55,13 @@ Having a consistent style for all code in a project can be very helpful
 
 I personally prefer "tabs for indenting, space for formatting"
 
-	!java
-	public class Foo {
-		// This has a tab before it
-		public static int DATA = 5; // Comment
-		                            // This is indented further with spaces
-	}
+```java
+public class Foo {
+	// This has a tab before it
+	public static int DATA = 5; // Comment
+	                            // This is indented further with spaces
+}
+```
 
 - Spaces
     - Code looks the same in every editor
@@ -81,16 +78,17 @@ It doesn't matter what you choose, as long as the project chooses only one
 
 The typical rule is "each logical block is indented exactly one more time"
 
-	!java
-	public class Foo {
-		public static void main() {
-			// One more layer
-			if(true) {
-				// Keep going deeper
-			} else
-				System.err.println("Never reached");
-		}
+```java
+public class Foo {
+	public static void main() {
+		// One more layer
+		if(true) {
+			// Keep going deeper
+		} else
+			System.err.println("Never reached");
 	}
+}
+```
 
 ---
 
@@ -121,13 +119,14 @@ General rule: A line should fit entirely on a line without scrolling.
 
 Braces are typically considered "attached" or "detached" from a line
 
-	!java
-	if(something()) { // Attached
-	}
-	else
-	{
-		// Detached
-	}
+```java
+if(something()) { // Attached
+}
+else
+{
+	// Detached
+}
+```
 
 ---
 
@@ -135,11 +134,12 @@ Braces are typically considered "attached" or "detached" from a line
 
 Some styles involve indenting the parenthesis.
 
-	!java
-	if(something)
-		{
-		something_else()
-		}
+```
+if(something)
+	{
+	something_else()
+	}
+```
 
 Don't. Just...don't.
 
@@ -153,21 +153,24 @@ Don't. Just...don't.
 
 Comments are your friend.
 
-	!cpp
-	// C++ example for extra confusion
-	memfrob(some_ptr, 166); // What does this do?
+```cpp
+// C++ example for extra confusion
+memfrob(some_ptr, 166); // What does this do?
+```
 
 When used properly, comments can help you recall code
 
-	!cpp
-	// Better, but talks about the function call itself
-	memfrob(some_ptr, 166); // Frobnicates 166 bytes of memory
+```cpp
+// Better, but talks about the function call itself
+memfrob(some_ptr, 166); // Frobnicates 166 bytes of memory
+```
 
 The best comments aren't line-by-line but describe the intent
 
-	!cpp
-	// Much better comment
-	memfrob(some_ptr, 166); // "Encrypts" our values
+```cpp
+// Much better comment
+memfrob(some_ptr, 166); // "Encrypts" our values
+```
 
 ---
 
@@ -196,26 +199,28 @@ Classes should also have a block comment explaining:
 If you name a variable `kitten` then you make the compiler, and generations of programmers, cry. 
 Variables should be named descriptively:
 
-	!java
-	// Obviously, the number of times the button was pressed
-	int timesPressed;
-	// Completely descriptive and self-explanatory
-	Victor leftFrontWheel;
+```java
+// Obviously, the number of times the button was pressed
+int timesPressed;
+// Completely descriptive and self-explanatory
+Victor leftFrontWheel;
+```
 
 Variables should NOT be named after what they're inside:
 
-	!java
-	// DO NOT DO THIS
-	// "Smurf Code"
-	public class Claw {
-		Victor clawMotor;
-		public void closeClaw()
-		{
-			clawMotor.set(1.0);
-		}
+```java
+// DO NOT DO THIS
+// "Smurf Code"
+public class Claw {
+	Victor clawMotor;
+	public void closeClaw()
+	{
+		clawMotor.set(1.0);
 	}
+}
 
-	Robot.claw.closeClaw(); // Redundant
+Robot.claw.closeClaw(); // Redundant
+```
 
 ---
 
@@ -223,11 +228,12 @@ Variables should NOT be named after what they're inside:
 
 A couple of different ways to capitalize and split words:
 
-	!java
-	int alloneword; // Bad, does not show word breaks
-	int camelCase; // Good, C/C++/Java convention - "Camel Case"
-	int ALLCAPS; // Good for constants and enums
-	int LeadingCamel; // Good for C/C++/Java Classes
+```java
+int alloneword; // Bad, does not show word breaks
+int camelCase; // Good, C/C++/Java convention - "Camel Case"
+int ALLCAPS; // Good for constants and enums
+int LeadingCamel; // Good for C/C++/Java Classes
+```
 
 ---
 
@@ -235,17 +241,19 @@ A couple of different ways to capitalize and split words:
 
 Variables are nouns by nature. They are THINGS.
 
-	!java
-	int pressButton; // What?
-	int buttonValue; // Good
+```java
+int pressButton; // What?
+int buttonValue; // Good
+```
 
 Methods are verbs. They are ACTIONS
 
-	!java
-	// Bad - What about the joystick is being used?
-	int joystick() {return 0;}
-	// Good
-	int getValue() {return 0;}
+```java
+// Bad - What about the joystick is being used?
+int joystick() {return 0;}
+// Good
+int getValue() {return 0;}
+```
 
 ---
 
@@ -253,11 +261,12 @@ Methods are verbs. They are ACTIONS
 
 Boolean values are `true` or `false`. 99% of the time, you want to name them using `is` or `has`
 
-	!java
-	// Bad, programmer has to assume things about the function
-	public boolean closed() {return 0;}
-	// Good, looks almost like a question
-	public boolean isClosed() {return true;}
+```java
+// Bad, programmer has to assume things about the function
+public boolean closed() {return 0;}
+// Good, looks almost like a question
+public boolean isClosed() {return true;}
+```
 
 ---
 
@@ -279,88 +288,94 @@ Comes with built-in styles for convenience.
 
 # Allman Style
 
-	!cpp
-	int Foo(bool isBar)
+```cpp
+int Foo(bool isBar)
+{
+	if (isBar)
 	{
-		if (isBar)
-		{
-			bar();
-			return 1;
-		}
-		else
-			return 0;
+		bar();
+		return 1;
 	}
+	else
+		return 0;
+}
+```
 
 ---
 
 # Java Style
 
-	!cpp
-	int Foo(bool isBar) {
-		if (isBar) {
-			bar();
-			return 1;
-		} else
-			return 0;
-	}
+```cpp
+int Foo(bool isBar) {
+	if (isBar) {
+		bar();
+		return 1;
+	} else
+		return 0;
+}
+```
 
 ---
 
 # Whitesmith Style
 
-	!cpp
-	int Foo(bool isBar) 
+```cpp
+int Foo(bool isBar) 
+	{
+	if (isBar)
 		{
-		if (isBar)
-			{
-			bar();
-			return 1;
-			}
-		else
-			return 0;
+		bar();
+		return 1;
 		}
+	else
+		return 0;
+	}
+```
 
 ---
 
 # Banner Style
 
-	!cpp
-	int Foo(bool isBar) {
-		if (isBar) {
-			bar();
-			return 1;
-			}
-		else
-			return 0;
+```cpp
+int Foo(bool isBar) {
+	if (isBar) {
+		bar();
+		return 1;
 		}
+	else
+		return 0;
+	}
+```
 
 ---
 
 # Horstmann Style
 
-	!cpp
-	int Foo(bool isBar)
-	{  if (isBar)
-	   {  bar();
-		  return 1;
-	   } else
-		  return 0;
-	}
+```cpp
+int Foo(bool isBar)
+{  if (isBar)
+   {  bar();
+	  return 1;
+   } else
+	  return 0;
+}
+```
 
 ---
 
 # 1 True Brace Style
 
-	!cpp
-	int Foo(bool isBar)
-	{
-		if (isFoo) {
-			bar();
-			return 1;
-		} else {
-			return 0;
-		}
+```cpp
+int Foo(bool isBar)
+{
+	if (isFoo) {
+		bar();
+		return 1;
+	} else {
+		return 0;
 	}
+}
+```
 
 ---
 
