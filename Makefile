@@ -3,6 +3,10 @@
 FILES:=${wildcard *.md}
 OUTDIR:=output
 
+.PHONY: default slides pdf latex all clean
+
+default: slides
+
 slides: $(FILES:%.md=$(OUTDIR)/%.html)
 pdf:    $(FILES:%.md=$(OUTDIR)/%.pdf)
 latex:  $(FILES:%.md=$(OUTDIR)/%.tex)
