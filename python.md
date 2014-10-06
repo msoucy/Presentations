@@ -281,6 +281,82 @@ for i in gen:
 
 ---
 
+# Context managers
+
+Sometimes, you want to be able to say "return to this state after doing this", without worrying about exceptions, etc:
+
+- File handling/autoclosing
+- Lock/unlock mutex
+- Cleanup after a class
+
+This concept exists in C++ as RAII, and in Python as Context Managers
+
+---
+
+# Context managers
+
+```python
+# Let's copy a file's contents!
+# This is super verbose
+inpfi = open("somefile")
+outfi = open("newfile", "w")
+outfi.write(inpfi.read()) # What if, we get an IOError?
+inpfi.close()
+outfi.close()
+```
+
+---
+
+# Context managers
+
+```python
+# Let's copy a file's contents!
+# This is still super verbose..
+inpfi = open("somefile")
+outfi = open("newfile", "w")
+try:
+	outfi.write(inpfi.read())
+except IOError:
+	inpfi.close()
+	outfi.close()
+```
+
+---
+
+# Context managers
+
+```python
+# Let's copy a file's contents!
+# Let's use context managers!
+with open("somefile") as inpfi:
+	with open("newfile", "w") as outfi:
+		outfi.write(inpfi.read())
+```
+
+---
+
+# Context managers
+
+```python
+# Let's copy a file's contents!
+# Why not use both together?
+with open("somefile") as inpfi, open("newfile", "w") as outfi:
+	outfi.write(inpfi.read())
+```
+
+---
+
+# Creating context managers
+
+Any custom class can get context manager functionality by adding two functions:
+
+- `__enter__(self)`: do any "entry" code
+- `__exit__(self, exc_type, exc_value, traceback)`: Any exit code, catches the exception given to it and passes it as arguments
+
+There is also [contextlib](https://docs.python.org/3.4/library/contextlib.html), which makes it even simpler
+
+---
+
 # First Class Functions
 
 Functions can be thought of like variables - you can pass them into functions, assign them, etc.
