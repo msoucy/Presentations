@@ -81,15 +81,10 @@ map(function, sequence[, sequence, ...])
 
 # Gives only elements for which the given function is true
 # (uses the identity function if None)
-
 filter(function or None, sequence)
+
 # Applies a function to reduce a sequence to a single value
-
 reduce(function, sequence[, initial])
-# (py2 only) Lazy generation of numbers for range
-
-# Default behavior for range in python3
-xrange(stop), xrange(start, stop[, step])
 
 # Give a list of attributes within an object
 dir([object])
@@ -147,7 +142,7 @@ def strVector(vec):
 	return "({0}, {1})".format(vec.x, vec.y)
 a = mkVector(3,4)
 b = mkVector(1,1)
-print strVector(addVectors(a,b))
+print(strVector(addVectors(a,b)))
 ```
 
 If you do this in the real world, you will be laughed out of any workplace.
@@ -171,7 +166,7 @@ class Vector(object):
 		return "({0}, {1})".format(self.x, self.y)
 a = Vector(3,4)
 b = Vector(1,1)
-print a+b
+print(a+b)
 ```
 
 ---
@@ -263,7 +258,7 @@ def genDoubles(maxVal):
 		yield i # Sends the value out of the function
 
 for i in genDoubles(20):
-	print i
+	print(i)
 
 val = genDoubles(20)
 print(val.next())
