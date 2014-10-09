@@ -464,6 +464,18 @@ add = debugAdd(add)
 
 ---
 
+# Virtual Environments
+
+Sometimes you'll want to install different versions of Python libraries.
+Normally, a python app won't/can't specify the version of each library required.
+This causes problems when one program only works with `libfoo==1.5`, but another requires `libfoo==2.0`.
+
+To get around this, we use virtual environments.
+
+The easiest way to set them up is via VirtualEnvWrapper or VirtualFish (depending on your shell).
+
+---
+
 # More info
 
 Some fun links:
