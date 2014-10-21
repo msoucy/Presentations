@@ -7,19 +7,22 @@ OUTDIR:=output
 
 default: slides
 
-slides: $(FILES:%.md=$(OUTDIR)/%.html)
-pdf:    $(FILES:%.md=$(OUTDIR)/%.pdf)
-latex:  $(FILES:%.md=$(OUTDIR)/%.tex)
+slides: $(FILES:%.md=$(OUTDIR)/%/index.html)
+pdf:    $(FILES:%.md=$(OUTDIR)/%/presentation.pdf)
+latex:  $(FILES:%.md=$(OUTDIR)/%/presentation.tex)
 
 all: clean slides pdf latex
 
-$(OUTDIR)/%.html: %.md $(OUTDIR)
+$(OUTDIR)/%/index.html: %.md $(OUTDIR)
+	mkdir -p $(OUTDIR)/$*
 	pandoc $< -o $@ -t slidy -s
 
-$(OUTDIR)/%.pdf: %.md $(OUTDIR)
+$(OUTDIR)/%/presentation.pdf: %.md $(OUTDIR)
+	mkdir -p $(OUTDIR)/$*
 	pandoc $< -o $@ --toc
 
-$(OUTDIR)/%.tex: %.md $(OUTDIR)
+$(OUTDIR)/%/presentation.tex: %.md $(OUTDIR)
+	mkdir -p $(OUTDIR)/$*
 	pandoc $< -o $@
 
 $(OUTDIR):
