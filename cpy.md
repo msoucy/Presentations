@@ -1,6 +1,6 @@
 % Using Python for Prototyping off of a C Library
 % Matt Soucy (<msoucy@csh.rit.edu>)
-% October 21, 2014
+% November 18, 2014
 
 ---
 
@@ -36,6 +36,8 @@ int main(int argc, char* argv)
 	while(1) {
 		Buffer buf = cmi_recv(r);
 		printf("Buffer length: %u", cmi_buffer_length(buf));
+		// We send the original buffer back
+		// Right now this process "owns" the buffer's memory
 		cmi_send(r, buf);
 	}
 	// Ignoring error handling...
@@ -147,7 +149,35 @@ Buffer = ctypes.c_void_p
 buffer_length = cmilib.buffer_length
 buffer_length.argtypes = (Buffer,)
 buffer_length.restype = ctypes.c_uint
+```
+
+---
+
+# Using `cffi`
+
+```python
 # cffi handles this for you
+ffi = cffi.FFI()
+# Could even use open("cmi.h").read() for this..?
+ffi.cdef("void* buffer_length(unsigned int);")
+C = ffi.dlopen("libcmi.so")
+buffer_length = C.buffer_length
+```
+
+---
+
+# Using the new CMI library
+
+Yes, this is the original code.
+
+```python
+import cmi
+
+with cmi.Router() as r:
+	while True:
+		buf = r.recv()
+		print("Buffer length:", len(buf))
+		r.send(buf);
 ```
 
 ---
@@ -175,9 +205,12 @@ I made several tools based off of this:
 - Code may need to be changed to export symbols from a dynamic library
 - Requires some boilerplate code (but `.h` files aren't much better)
 - The echo server was SLIGHTLY slower...but only slightly
-- Python couldn't be used to write any production-level code (embedded)
+- Python couldn't be easily used to write any production-level code (embedded on a proprietary system)
 - Management was worried I was getting bored
 
 ---
 
 # Questions?
+
+- Slides at <http://msoucy.me/seminars/cpy>
+- Contact me at <msoucy@csh.rit.edu>
