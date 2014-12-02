@@ -2,6 +2,7 @@
 
 FILES:=${wildcard *.md}
 OUTDIR:=output
+CSS:=/theme/css/main.css
 
 .PHONY: default slides pdf latex all clean
 
@@ -15,7 +16,7 @@ all: clean slides pdf latex
 
 $(OUTDIR)/%/index.html: %.md $(OUTDIR)
 	mkdir -p $(OUTDIR)/$*
-	pandoc $< -o $@ -t slidy -s
+	pandoc $< -o $@ -t slidy -s --css $(CSS)
 
 $(OUTDIR)/%/presentation.pdf: %.md $(OUTDIR)
 	mkdir -p $(OUTDIR)/$*
