@@ -398,13 +398,13 @@ struct Reversed
 
 	@property bool empty() const { return range.empty; }
 
-	@property int front() const { return range.back; } // ← reverse
+	@property int front() const { return range.back; } // <- reverse
 
-	@property int back() const { return range.front; } // ← reverse
+	@property int back() const { return range.front; } // <- reverse
 
-	void popFront() { range.popBack(); } // ← reverse
+	void popFront() { range.popBack(); } // <- reverse
 
-	void popBack() {range.popFront(); } // ← reverse
+	void popBack() {range.popFront(); } // <- reverse
 }
 ```
 

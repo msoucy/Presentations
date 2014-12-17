@@ -5,7 +5,8 @@
 ---
 
 # What is D?
-## "Great, the last thing I need is another D in programming!" - Walter Bright
+
+> "Great, the last thing I need is another D in programming!" - Walter Bright
 
 - Developed by:
     - Walter Bright (Digital Mars, first native C++ compiler)
@@ -190,8 +191,8 @@ void main() {
 Output:
 
 ```
-1 3 5 7 9 
-9 7 5 3 1 
+1 3 5 7 9
+9 7 5 3 1
 1 9 25 49 81
 ```
 
@@ -255,6 +256,7 @@ default:
 
 ---
 
+<!--
 # WORLD-WIDE AWESOMENESS
 
 D source text can be in one of the following formats:
@@ -271,12 +273,13 @@ Copied verbatim from the D newsgroups:
 ```d
 int main()
 {
-	int العربية = 42; // <- I really love this mind-fuck !!!
+	int ﺎﻠﻋﺮﺒﻳﺓ = 42; // <- I really love this mind-fuck !!!
 	return العربية;
 }
 ```
-	
+
 (In case you're wondering, "العربية" means "Arabic")
+-->
 
 ---
 
