@@ -14,17 +14,19 @@ latex:  $(FILES:%.md=$(OUTDIR)/%/presentation.tex)
 
 all: clean slides pdf latex
 
-$(OUTDIR)/%/index.html: %.md $(OUTDIR)
-	mkdir -p $(OUTDIR)/$*
-	pandoc $< -o $@ -t slidy -s --css $(CSS)
+PANDOC=pandoc $< -o $@
 
-$(OUTDIR)/%/presentation.pdf: %.md $(OUTDIR)
+$(OUTDIR)/%/index.html: %.md
 	mkdir -p $(OUTDIR)/$*
-	pandoc $< -o $@ --toc
+	$(PANDOC) -t slidy -s --css $(CSS)
 
-$(OUTDIR)/%/presentation.tex: %.md $(OUTDIR)
+$(OUTDIR)/%/presentation.pdf: %.md
 	mkdir -p $(OUTDIR)/$*
-	pandoc $< -o $@
+	$(PANDOC) --toc
+
+$(OUTDIR)/%/presentation.tex: %.md
+	mkdir -p $(OUTDIR)/$*
+	$(PANDOC)
 
 $(OUTDIR):
 	mkdir -p $(OUTDIR)
