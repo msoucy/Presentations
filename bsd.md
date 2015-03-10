@@ -6,16 +6,16 @@
 
 # History
 
- Version | Released      | System     
-:--------|:--------------|:-----------
-1BSD     | March 9, 1978 | PDP-11     
-2BSD     | May 1979      | PDP-11     
-3BSD     | End of 1979   |            
-4BSD     | November 1980 | VAX
-4.1BSD   | June 1981     | VAX etc.
-4.2BSD   | August 1983   | VAX etc.
-4.3BSD   | June 1986     | VAX etc.
-4.4BSD   | June 1994     | VAX etc.
+| Version   | Released        | System       |
+| :-------- | :-------------- | :----------- |
+| 1BSD      | March 9, 1978   | PDP-11       |
+| 2BSD      | May 1979        | PDP-11       |
+| 3BSD      | End of 1979     |              |
+| 4BSD      | November 1980   | VAX          |
+| 4.1BSD    | June 1981       | VAX etc.     |
+| 4.2BSD    | August 1983     | VAX etc.     |
+| 4.3BSD    | June 1986       | VAX etc.     |
+| 4.4BSD    | June 1994       | VAX etc.     |
 
 - 1BSD was actually an add-on for Version 6 Unix
 - 2.9BSD (1983) - first version that was a full OS on its own
