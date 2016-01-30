@@ -1,6 +1,6 @@
-% Python++: Fixing the CS Curriculum
+% Python for RIT Students
 % Matt Soucy (<msoucy@csh.rit.edu>)
-% February 9, 2014
+% November 6, 2015
 
 ---
 
@@ -23,12 +23,10 @@
 
 Stop using IDLE, it's not sufficient for your needs
 
-- IPython
+- Jupyter (formerly IPython)
     - Powerful scripting abilities - `!`-commands allow for shell-scripting like syntax, but 10x better
 - BPython
     - Another nice REPL, ncurses-based and provides useful "view source" functionality
-- BIPython
-	- Attempts to combine BPython and IPython
 - Spyder
 	- Somewhat useful GUI usable in Windows
 	- Also part of Anaconda, which is useful for math processing and packaging
@@ -70,7 +68,7 @@ for root, dirs, files in os.walk("."): pass
 
 ---
 
-# Functions you (probably) don't know about
+# Functions you might not know about
 
 ```python
 # Gives index, value pairs
@@ -90,7 +88,7 @@ reduce(function, sequence[, initial])
 dir([object])
 
 # "zip up" several sequences
-zip(seq1 p, seq1 [...]]) # -> [(seq1[0], seq2[0] ...), (...)]
+zip(seq1 p, seq1 [...]]) # -> [(seq1[0], seq2[0], ...), (...)]
 ```
 
 ---
@@ -120,13 +118,14 @@ A similar syntax also works with keyword arguments:
 ```python
 def keywords(**kwargs):
 	print(kwargs)
+keywords(hello="world", this="that")
 ```
 
 ---
 
 # Magic functions
 
-How the CS department teaches classes:
+How the CS department has taught classes:
 
 ```python
 class Vector(object):
@@ -185,6 +184,25 @@ Some of the most useful magic functions are:
 
 ---
 
+# RITlib
+
+RIT has `rit_lib`, which is a janky version of `namedtuple`
+
+```python
+from rit_lib import struct
+class Vector(struct):
+	_slots = ("x", "y")
+```
+
+`rit_lib`'s `struct` is like a mutable `namedtuple` that you can't iterate over
+
+```python
+from collections import namedtuple
+Vector = namedtuple("Vector", ["x", "y"])
+```
+
+---
+
 # Statements vs. Expressions
 
 ```python
@@ -193,6 +211,7 @@ None
 "Hello, world!"
 2+2
 [1,3,5]
+
 # A statement is "something that does something"
 # All expressions are also statements
 # Anything that involves blocks is a statement
@@ -214,9 +233,11 @@ def doubleItems(seq):
 	for i in seq:
 		results.append(i*2)
 	return results
+
 # And now as a comprehension
 def doubleItems(seq):
 	return [i*2 for i in seq]
+
 # Return a generator instead of a list
 def doubleItems(seq):
 	return (i*2 for i in seq)
@@ -236,6 +257,7 @@ def getLines(allFilenames):
 			if ">>" in line:
 				data.append(line.strip())
 	return data
+
 # Better done as a comprehension:
 def getLines(allFilenames):
 	return [line.strip()
@@ -254,8 +276,8 @@ They can almost be considered "functions that return several times as the functi
 
 ```python
 def genDoubles(maxVal):
-	for i in range(0, maxVal, 2):
-		yield i # Sends the value out of the function
+	for i in range(0, maxVal):
+		yield i*2 # Sends the value out of the function
 
 for i in genDoubles(20):
 	print(i)
@@ -273,10 +295,23 @@ Generators can also be produced in a similar syntax to comprehensions.
 
 The main difference is that the generator is lazy and so needs to be iterated over to operate on it
 
-```python
-gen = (x * 2 for x in range(10))
-for i in gen:
-	print(i)
+```pycon
+>>> gen = (x * 2 for x in range(10))
+>>> gen
+<generator object <genexpr> at 0x7fce54ecdd70>
+>>> for i in gen:
+...     print(i)
+...
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
 ```
 
 ---
