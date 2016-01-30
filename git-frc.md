@@ -15,41 +15,35 @@
 
 # Old ways of tracking changes
 
-## Undo/Redo
-
-- This is silly, but usable, for fixing small mistakes that you make
-- Only works within one work session
-- Close a file, and your change history vanishes
-
-## Zip files/separate folders
-
-- When you're done making changes, or have a version you like, copy the folder
-- Store in `.zip` "to save space"...
-- This does NOT SCALE WELL. At all. Seriously, it's awful.
-- Our team did this until 2008
+- Undo/Redo
+	- This is silly, but usable, for fixing small mistakes that you make
+	- Only works within one work session
+	- Close a file, and your change history vanishes
+- Zip files/separate folders
+	- When you're done making changes, or have a version you like, copy the folder
+	- Store in `.zip` "to save space"...
+	- This does NOT SCALE WELL. At all. Seriously, it's awful.
+	- Our team did this until 2008
 
 ---
 
 # Older version control systems we used
 
-## Subversion
-
-- Centralizes the code
-- One person at a time can "reserve" a file (`checkout`)
-- Only the person who has a file checked out can `checkin`
-- All users can `svn update` to get the changes from the central server
-- Named branches to have alternate build choices
-- We did this in 2008 (on Google Code)
-
-## Mercurial
-
-- What if the team can't access the server?
-	- This happens ALL THE TIME at competitions
-- Multiple people can make changes at once
-- Only one `head` can be on the server per branch
-	- Users merge them together
-- Named branches actually usable
-- We used 2009 - 2014 (on Google Code)
+- Subversion
+	- Centralizes the code
+	- One person at a time can "reserve" a file (`checkout`)
+	- Only the person who has a file checked out can `checkin`
+	- All users can `svn update` to get the changes from the central server
+	- Named branches to have alternate build choices
+	- We did this in 2008 (on Google Code)
+- Mercurial
+	- What if the team can't access the server?
+		- This happens ALL THE TIME at competitions
+	- Multiple people can make changes at once
+	- Only one `head` can be on the server per branch
+		- Users merge them together
+	- Named branches actually usable
+	- We used 2009 - 2014 (on Google Code)
 
 ---
 
@@ -57,7 +51,7 @@
 
 - More powerful and widely used than Mercurial
 - Doesn't restrict you to using one development pattern
-	- But we will
+	- But the mentors will
 - Branches aren't just common, but *essential*
 - We use 2015 - ???? (on [GitHub][])
 
@@ -90,7 +84,7 @@
 - The repository you fork from is called "`upstream`"
 	- Because changes can "flow" down
 - When you want to add your changes to `upstream`, you do it via "pull request"
-	- Literally, "I would like you to take my changes"
+	- Literally means "I would like you to take my changes"
 
 ---
 
@@ -104,13 +98,18 @@
 	- Develop your code in your own copy
 	- You're responsible for keeping it up to date
 		- Launch the given batch file (`Update.bat`) from the "Git Shell"
-		- Make sure the setting for this is `CMD`!
 	- You can commit and push whenever it feels appropriate
 - When your code is ready to be merged in with the team's code:
 	1. Go to your fork on GitHub
-	2. Click the big green button with a swirly symbol: ![Pull Request][]
-	3. MAKE SURE THE CHANGES BUILD AND LOOK CORRECT
+	2. Click the big green button
+	3. **MAKE SURE THAT THE CHANGES BUILD AND LOOK CORRECT**
 	4. Submit the pull request
+
+---
+
+# Pull Request Image
+
+![Pull Request](pull-request.png)
 
 ---
 
@@ -121,6 +120,18 @@
 - The workflow gives us control over what code is considered "stable"
 <!--- Version control is as easy as *fork*, *spoon*, and *knife*-->
 
+---
+
+# Further Reading
+
+- [Git Tutorial](http://git-scm.com/docs/gittutorial)
+- [Atlassian Tutorials](https://www.atlassian.com/git/tutorials/)
+- [Ryan Brown's presentation](http://rsb.io/talks/git/)
+- [git ready](http://gitready.com)
+- [gitref](http://gitref.org)
+- [Pro Git](http://progit.org)
+- [Git Cheat Sheet](http://cheat.errtheblog.com/s/git)
+<!-- - [BitBucket tutorial](https://bitbucket.org/spooning/) -->
+
 [GitHub]: http://github.com/
-[ChopShop repository]: http://github.com/ChopShop-166/frc-2015
-[Pull Request]: pull-request.png
+[ChopShop repository]: http://github.com/ChopShop-166/frc-2016
