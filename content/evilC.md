@@ -774,28 +774,6 @@ What does this code do?
 
 ---
 
-# Loop classes
-
-Everyone knows how to create a variable inside of a for loop:
-
-```cpp
-for(int i=0;...;...) {
-	...
-}
-```
-
-Because of how structures are declared, it's also possible to create one in the same place.
-This can be used to create several variables with different types,
-which is otherwise impossible while keeping their scope limited to the for loop.
-
-```cpp
-for(struct { int a; float b; } loop = { 1, 2.0 }; ...; ...) {
-	...
-}
-```
-
----
-
 # C++ Evil
 
 ---
